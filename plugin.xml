@@ -33,7 +33,7 @@
             
         <source-file
         src="src/android/libs/ekyc-setu-sdk.aar"
-        target-dir="app/src/main/libs"/>
+        target-dir="src/main/libs"/>
 
 
         <!-- Gradle dependency -->
