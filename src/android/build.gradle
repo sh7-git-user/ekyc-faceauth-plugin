@@ -1,0 +1,9 @@
+repositories {
+    flatDir {
+        dirs 'src/android'
+    }
+}
+
+dependencies {
+    implementation(name:'ekyc-setu-sdk', ext:'aar')
+}
