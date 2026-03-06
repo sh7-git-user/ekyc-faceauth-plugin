@@ -23,7 +23,10 @@
                 src="src/android/FaceAuthPlugin.java"
                 target-dir="src/com/bank/faceauth"/>
 
-       <framework src="src/android/libs/ekyc-setu-sdk.aar" custom="true" type="aar"/>
+      <framework
+        src="src/android/ekyc-setu-sdk.aar"
+        custom="true"
+        type="aar"/>
 
         <config-file target="AndroidManifest.xml" parent="/*">
 
