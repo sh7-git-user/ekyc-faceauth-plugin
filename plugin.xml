@@ -12,27 +12,32 @@
     <js-module src="www/faceauth.js" name="FaceAuthPlugin">
         <clobbers target="cordova.plugins.faceauth"/>
     </js-module>
-        
-     <engines>
+
+    <engines>
         <engine name="cordova-android" version=">=10.0.0"/>
     </engines>
 
     <platform name="android">
 
+        <!-- Register plugin service -->
+        <config-file target="config.xml" parent="/*">
+            <feature name="FaceAuthPlugin">
+                <param name="android-package" value="com.bank.faceauth.FaceAuthPlugin"/>
+            </feature>
+        </config-file>
+
+        <!-- Java plugin -->
         <source-file
-                src="src/android/FaceAuthPlugin.java"
-                target-dir="src/com/bank/faceauth"/>
+            src="src/android/FaceAuthPlugin.java"
+            target-dir="src/com/bank/faceauth"/>
 
-      <!-- Load Gradle file -->
-    <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+        <!-- Gradle dependency -->
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
 
-    />
-
+        <!-- Permissions -->
         <config-file target="AndroidManifest.xml" parent="/*">
-
             <uses-permission android:name="android.permission.CAMERA"/>
             <uses-permission android:name="android.permission.INTERNET"/>
-
         </config-file>
 
     </platform>
