@@ -23,7 +23,11 @@
                 src="src/android/FaceAuthPlugin.java"
                 target-dir="src/com/bank/faceauth"/>
 
-      <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+      <!-- Load Gradle file -->
+    <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+
+    <!-- Include the AAR -->
+    <framework src="src/android/libs/ekyc-setu-sdk.aar" custom="true" type="aar" />
 
         <config-file target="AndroidManifest.xml" parent="/*">
 
