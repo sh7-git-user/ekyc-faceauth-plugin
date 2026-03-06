@@ -11,10 +11,9 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import com.sdk.CLServices;
-import com.sdk.CLRemoteResultReceiver;
-import com.sdk.ServiceConnectionStatusNotifier;
-import com.sdk.Constant;
+import org.npci.upi.security.services.CLServices;
+import org.npci.upi.security.services.CLRemoteResultReceiver;
+import org.npci.upi.security.services.ServiceConnectionStatusNotifier;
 
 public class FaceAuthPlugin extends CordovaPlugin {
 
@@ -40,7 +39,8 @@ public class FaceAuthPlugin extends CordovaPlugin {
                         @Override
                         public void serviceConnected(CLServices services) {
 
-                            Constant.clServices = services;
+                            // Store service locally instead of Constant.clServices
+                            CLServices clServices = services;
 
                             CLRemoteResultReceiver receiver =
                                     new CLRemoteResultReceiver(new ResultReceiver(new Handler()) {
@@ -62,7 +62,7 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                                     });
 
-                            Constant.clServices.getCredential(
+                            clServices.getCredential(
                                     keyCode,
                                     "",
                                     cred,
