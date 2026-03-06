@@ -1,6 +1,6 @@
 repositories {
     flatDir {
-        dirs 'src/android'
+        dirs 'src/android/libs'
     }
 }
 
