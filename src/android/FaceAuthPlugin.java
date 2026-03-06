@@ -21,7 +21,7 @@ public class FaceAuthPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
         if (action.equals("faceAuth")) {
-
+            android.util.Log.d("FaceAuthPlugin", "FaceAuth action triggered");
             Activity activity = cordova.getActivity();
             String salt = args.getString(0);
 
