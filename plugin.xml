@@ -30,6 +30,11 @@
         <source-file
             src="src/android/FaceAuthPlugin.java"
             target-dir="src/com/bank/faceauth"/>
+            
+        <source-file
+        src="src/android/libs/ekyc-setu-sdk.aar"
+        target-dir="app/src/main/libs"/>
+
 
         <!-- Gradle dependency -->
         <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
