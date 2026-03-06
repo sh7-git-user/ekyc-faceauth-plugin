@@ -1,8 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <plugin id="com.bank.ekyc.faceauth"
         version="1.0.0"
-        xmlns="http://apache.org/cordova/ns/plugins/1.0">
+        xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <name>FaceAuthPlugin</name>
+
+    <description>NPCI eKYC Face Authentication Plugin</description>
 
     <js-module src="www/faceauth.js" name="FaceAuthPlugin">
         <clobbers target="cordova.plugins.faceauth"/>
@@ -10,14 +15,19 @@
 
     <platform name="android">
 
-        <source-file src="src/android/FaceAuthPlugin.java"
-                     target-dir="src/com/bank/faceauth"/>
+        <source-file
+                src="src/android/FaceAuthPlugin.java"
+                target-dir="src/com/bank/faceauth"/>
 
-        <framework src="src/android/libs/ekyc-sdk.aar" custom="true"/>
+        <framework
+                src="src/android/libs/ekyc-setu-sdk.aar"
+                custom="true"/>
 
         <config-file target="AndroidManifest.xml" parent="/*">
+
             <uses-permission android:name="android.permission.CAMERA"/>
             <uses-permission android:name="android.permission.INTERNET"/>
+
         </config-file>
 
     </platform>
