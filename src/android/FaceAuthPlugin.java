@@ -23,31 +23,30 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
         if (action.equals("faceAuth")) {
 
-            try {
+            Activity activity = cordova.getActivity();
+            String salt = args.getString(0);
 
-                Activity activity = cordova.getActivity();
+            cordova.getThreadPool().execute(() -> {
 
-                String salt = args.getString(0);
+                try {
 
-                String cred = "{\"CredAllowed\":[{\"type\":\"BIOMETRIC\",\"subtype\":\"FACE_AUTH\"}]}";
+                    String cred = "{\"CredAllowed\":[{\"type\":\"BIOMETRIC\",\"subtype\":\"FACE_AUTH\"}]}";
 
-                String keyCode = "EKYC";
-                String langPref = "en_US";
+                    String keyCode = "EKYC";
+                    String langPref = "en_US";
 
-                CLServices.initService(activity, new ServiceConnectionStatusNotifier() {
+                    CLServices.initService(activity, new ServiceConnectionStatusNotifier() {
 
-                    @Override
-                    public void serviceConnected(CLServices services) {
+                        @Override
+                        public void serviceConnected(CLServices services) {
 
-                        Constant.clServices = services;
+                            Constant.clServices = services;
 
-                        CLRemoteResultReceiver receiver =
-                                new CLRemoteResultReceiver(new ResultReceiver(new Handler()) {
+                            CLRemoteResultReceiver receiver =
+                                    new CLRemoteResultReceiver(new ResultReceiver(new Handler()) {
 
-                                    @Override
-                                    protected void onReceiveResult(int resultCode, Bundle resultData) {
-
-                                        try {
+                                        @Override
+                                        protected void onReceiveResult(int resultCode, Bundle resultData) {
 
                                             if (resultData != null) {
 
@@ -59,45 +58,41 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                                             }
 
-                                        } catch (Exception e) {
-
-                                            callbackContext.error(e.getMessage());
-
                                         }
 
-                                    }
+                                    });
 
-                                });
+                            Constant.clServices.getCredential(
+                                    keyCode,
+                                    "",
+                                    cred,
+                                    "",
+                                    salt,
+                                    "",
+                                    "",
+                                    langPref,
+                                    receiver
+                            );
+                        }
 
-                        Constant.clServices.getCredential(
-                                keyCode,
-                                "",
-                                cred,
-                                "",
-                                salt,
-                                "",
-                                "",
-                                langPref,
-                                receiver
-                        );
-                    }
+                        @Override
+                        public void serviceDisconnected() {
 
-                    @Override
-                    public void serviceDisconnected() {
+                            callbackContext.error("SDK service disconnected");
 
-                        callbackContext.error("SDK service disconnected");
+                        }
 
-                    }
-                });
+                    });
 
-                return true;
+                } catch (Exception e) {
 
-            } catch (Exception e) {
+                    callbackContext.error(e.getMessage());
 
-                callbackContext.error(e.getMessage());
+                }
 
-            }
+            });
 
+            return true;
         }
 
         return false;
