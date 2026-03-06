@@ -25,7 +25,7 @@ public class FaceAuthPlugin extends CordovaPlugin {
             Activity activity = cordova.getActivity();
             String salt = args.getString(0);
 
-            cordova.getThreadPool().execute(() -> {
+            activity.runOnUiThread(() -> {
 
                 try {
 
@@ -38,7 +38,7 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                         @Override
                         public void serviceConnected(CLServices services) {
-
+                              android.util.Log.d("FaceAuthPlugin", "RD service connected");   
                             // Store service locally instead of Constant.clServices
                             CLServices clServices = services;
 
