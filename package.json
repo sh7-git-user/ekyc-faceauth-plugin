@@ -1,6 +1,7 @@
 {
   "name": "ekyc-faceauth-plugin",
   "version": "1.0.0",
+  "description": "NPCI eKYC FaceAuth Cordova Plugin",
   "cordova": {
     "id": "com.bank.ekyc.faceauth",
     "platforms": [
