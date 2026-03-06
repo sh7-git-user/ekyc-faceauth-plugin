@@ -1,7 +1,14 @@
 {
-  "name": "ekyc-faceauth-plugin",
+  "name": "cordova-plugin-faceauth",
   "version": "1.0.0",
-  "description": "NPCI eKYC FaceAuth Cordova Plugin",
+  "description": "NPCI eKYC Face Authentication Cordova Plugin",
+  "license": "MIT",
+  "keywords": [
+    "cordova",
+    "cordova-android",
+    "faceauth",
+    "ekyc"
+  ],
   "cordova": {
     "id": "com.bank.ekyc.faceauth",
     "platforms": [
