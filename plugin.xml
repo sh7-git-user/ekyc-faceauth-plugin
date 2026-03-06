@@ -29,14 +29,14 @@
         <!-- Java plugin -->
         <source-file
             src="src/android/FaceAuthPlugin.java"
-            target-dir="src/com/bank/faceauth"/>
-            
+            target-dir="app/src/main/java/com/bank/faceauth"/>
+
+        <!-- AAR SDK -->
         <source-file
-        src="src/android/libs/ekyc-setu-sdk.aar"
-        target-dir="src/main/libs"/>
+            src="src/android/libs/ekyc-setu-sdk.aar"
+            target-dir="app/libs"/>
 
-
-        <!-- Gradle dependency -->
+        <!-- Gradle -->
         <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
 
         <!-- Permissions -->
