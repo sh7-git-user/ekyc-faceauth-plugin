@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.provider.Settings;
+import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -18,6 +19,8 @@ import org.npci.upi.security.services.ServiceConnectionStatusNotifier;
 
 public class FaceAuthPlugin extends CordovaPlugin {
 
+    private CallbackContext callbackContext;
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
@@ -25,7 +28,9 @@ public class FaceAuthPlugin extends CordovaPlugin {
             return false;
         }
 
-        android.util.Log.d("FaceAuthPlugin", "FaceAuth action triggered");
+        Log.d("FaceAuthPlugin", "FaceAuth action triggered");
+
+        this.callbackContext = callbackContext;
 
         Activity activity = cordova.getActivity();
         String salt = args.getString(0);
@@ -45,15 +50,15 @@ public class FaceAuthPlugin extends CordovaPlugin {
                         Settings.Secure.ANDROID_ID
                 );
 
-                android.util.Log.d("FaceAuthPlugin", "Transaction ID: " + txnId);
-                android.util.Log.d("FaceAuthPlugin", "Device ID: " + deviceId);
+                Log.d("FaceAuthPlugin", "Transaction ID: " + txnId);
+                Log.d("FaceAuthPlugin", "Device ID: " + deviceId);
 
                 CLServices.initService(activity, new ServiceConnectionStatusNotifier() {
 
                     @Override
                     public void serviceConnected(CLServices services) {
 
-                        android.util.Log.d("FaceAuthPlugin", "RD service connected");
+                        Log.d("FaceAuthPlugin", "RD service connected");
 
                         CLServices clServices = services;
 
@@ -63,8 +68,8 @@ public class FaceAuthPlugin extends CordovaPlugin {
                                     @Override
                                     protected void onReceiveResult(int resultCode, Bundle resultData) {
 
-                                        android.util.Log.d("FaceAuthPlugin", "RD Result Code: " + resultCode);
-                                        android.util.Log.d("FaceAuthPlugin", "RD Result Bundle: " + resultData);
+                                        Log.d("FaceAuthPlugin", "RD Result Code: " + resultCode);
+                                        Log.d("FaceAuthPlugin", "RD Result Bundle: " + resultData);
 
                                         if (resultData != null) {
 
@@ -83,15 +88,19 @@ public class FaceAuthPlugin extends CordovaPlugin {
                                                 result = resultData.toString();
                                             }
 
-                                            android.util.Log.d("FaceAuthPlugin", "FaceAuth result: " + result);
+                                            Log.d("FaceAuthPlugin", "FaceAuth result: " + result);
 
-                                            callbackContext.success(result);
+                                            if (FaceAuthPlugin.this.callbackContext != null) {
+                                                FaceAuthPlugin.this.callbackContext.success(result);
+                                            }
 
                                         } else {
 
-                                            android.util.Log.e("FaceAuthPlugin", "Empty result from FaceAuth");
-                                            callbackContext.error("Empty result from FaceAuth");
+                                            Log.e("FaceAuthPlugin", "Empty result from FaceAuth");
 
+                                            if (FaceAuthPlugin.this.callbackContext != null) {
+                                                FaceAuthPlugin.this.callbackContext.error("Empty result from FaceAuth");
+                                            }
                                         }
                                     }
 
@@ -99,9 +108,10 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                         try {
 
-                            android.util.Log.d("FaceAuthPlugin", "Calling getCredential...");
-                            String payer = "{\"payee\":\"user@upi\"}";
-                            String saltJson = "{\"salt\":\"" + salt + "\"}";
+                            Log.d("FaceAuthPlugin", "Calling getCredential...");
+
+                            String payer = "user@upi";
+                            String saltJson = salt;
 
                             clServices.getCredential(
                                     keyCode,
@@ -117,8 +127,11 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                         } catch (Exception e) {
 
-                            android.util.Log.e("FaceAuthPlugin", "getCredential failed: " + e.getMessage());
-                            callbackContext.error(e.getMessage());
+                            Log.e("FaceAuthPlugin", "getCredential failed: " + e.getMessage());
+
+                            if (FaceAuthPlugin.this.callbackContext != null) {
+                                FaceAuthPlugin.this.callbackContext.error(e.getMessage());
+                            }
 
                         }
                     }
@@ -126,8 +139,11 @@ public class FaceAuthPlugin extends CordovaPlugin {
                     @Override
                     public void serviceDisconnected() {
 
-                        android.util.Log.e("FaceAuthPlugin", "SDK service disconnected");
-                        callbackContext.error("SDK service disconnected");
+                        Log.e("FaceAuthPlugin", "SDK service disconnected");
+
+                        if (FaceAuthPlugin.this.callbackContext != null) {
+                            FaceAuthPlugin.this.callbackContext.error("SDK service disconnected");
+                        }
 
                     }
 
@@ -135,8 +151,11 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
             } catch (Exception e) {
 
-                android.util.Log.e("FaceAuthPlugin", "Exception: " + e.getMessage());
-                callbackContext.error(e.getMessage());
+                Log.e("FaceAuthPlugin", "Exception: " + e.getMessage());
+
+                if (FaceAuthPlugin.this.callbackContext != null) {
+                    FaceAuthPlugin.this.callbackContext.error(e.getMessage());
+                }
 
             }
 
