@@ -47,16 +47,33 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                                         @Override
                                         protected void onReceiveResult(int resultCode, Bundle resultData) {
-
+                                           android.util.Log.d("FaceAuthPlugin", "RD Result Bundle: " + resultData);a
                                             if (resultData != null) {
 
-                                                callbackContext.success(resultData.toString());
+    String result = "";
 
-                                            } else {
+    if (resultData.containsKey("PID_DATA")) {
+        result = resultData.getString("PID_DATA");
+    } 
+    else if (resultData.containsKey("PID_DATA_XML")) {
+        result = resultData.getString("PID_DATA_XML");
+    }
+    else if (resultData.containsKey("RESULT")) {
+        result = resultData.getString("RESULT");
+    }
+    else {
+        result = resultData.toString();
+    }
 
-                                                callbackContext.error("Empty result from FaceAuth");
+    android.util.Log.d("FaceAuthPlugin", "FaceAuth result: " + result);
 
-                                            }
+    callbackContext.success(result);
+
+} else {
+
+    callbackContext.error("Empty result from FaceAuth");
+
+}
 
                                         }
 
