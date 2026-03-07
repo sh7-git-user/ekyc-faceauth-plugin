@@ -41,7 +41,12 @@ public class FaceAuthPlugin extends CordovaPlugin {
                               android.util.Log.d("FaceAuthPlugin", "RD service connected");   
                             // Store service locally instead of Constant.clServices
                             CLServices clServices = services;
+                       String txnId = String.valueOf(System.currentTimeMillis());
 
+String deviceId = android.provider.Settings.Secure.getString(
+        activity.getContentResolver(),
+        android.provider.Settings.Secure.ANDROID_ID
+    );
                             CLRemoteResultReceiver receiver =
                                     new CLRemoteResultReceiver(new ResultReceiver(new Handler()) {
 
@@ -80,16 +85,16 @@ public class FaceAuthPlugin extends CordovaPlugin {
                                     });
 
                             clServices.getCredential(
-                                    keyCode,
-                                    "",
-                                    cred,
-                                    "",
-                                    salt,
-                                    "",
-                                    "",
-                                    langPref,
-                                    receiver
-                            );
+        keyCode,
+        txnId,
+        cred,
+        "user@upi",
+        salt,
+        deviceId,
+        "ANDROID",
+        langPref,
+        receiver
+);
                         }
 
                         @Override
