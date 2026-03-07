@@ -47,7 +47,7 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                                         @Override
                                         protected void onReceiveResult(int resultCode, Bundle resultData) {
-                                           android.util.Log.d("FaceAuthPlugin", "RD Result Bundle: " + resultData);a
+                                           android.util.Log.d("FaceAuthPlugin", "RD Result Bundle: " + resultData);
                                             if (resultData != null) {
 
     String result = "";
