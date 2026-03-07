@@ -101,12 +101,14 @@ public class FaceAuthPlugin extends CordovaPlugin {
 
                             android.util.Log.d("FaceAuthPlugin", "Calling getCredential...");
                             String payer = "{\"payee\":\"user@upi\"}";
+                            String saltJson = "{\"salt\":\"" + salt + "\"}";
+
                             clServices.getCredential(
                                     keyCode,
                                     txnId,
                                     cred,
                                     payer,
-                                    salt,
+                                    saltJson,
                                     deviceId,
                                     "ANDROID",
                                     langPref,
